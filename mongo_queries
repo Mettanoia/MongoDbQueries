@@ -1,0 +1,201 @@
+# 12 
+
+db.getCollection('restaurants').find({
+  'cuisine': { $nin: ['American'] },
+  'address.coord.1': { $lt: -65.754168 },
+  'grades.score': { $gt: 70 }
+});
+
+# 13
+
+db.getCollection('restaurants')
+  .find({
+    cuisine: { $nin: ['American'] },
+    'grades.grade': 'A',
+    borough: { $nin: ['Brooklyn'] }
+  })
+  .sort({ cuisine: -1 });
+
+# 14
+
+db.getCollection('restaurants').find(
+  { name: { $regex: '^Wil' } },
+  {
+    restaurant_id: 1,
+    borough: 1,
+    name: 1,
+    cuisine: 1
+  }
+);
+
+# 15
+
+db.getCollection('restaurants').find(
+  { name: { $regex: 'ces$' } },
+  {
+    restaurant_id: 1,
+    borough: 1,
+    name: 1,
+    cuisine: 1
+  }
+);
+
+# 16
+
+db.getCollection('restaurants').find(
+  { name: { $regex: 'Reg' } },
+  {
+    restaurant_id: 1,
+    borough: 1,
+    name: 1,
+    cuisine: 1
+  }
+);
+
+# 17
+
+db.getCollection('restaurants').find({
+  borough: 'Bronx',
+  cuisine: { $in: ['American', 'Chinese'] }
+});
+
+# 18
+
+db.getCollection('restaurants').find(
+  {
+    borough: {
+      $in: [
+        'Bronx',
+        'Brookyln',
+        'Staten Island',
+        'Queens'
+      ]
+    }
+  },
+  {
+    name: 1,
+    borough: 1,
+    cuisine: 1,
+    restaurant_id: 1
+  }
+);
+
+# 20
+
+db.getCollection('restaurants').find(
+  { 'grades.score': { $not: { $gt: 10 } } },
+  {
+    cuisine: 1,
+    borough: 1,
+    _id: 0,
+    restaurant_id: 1,
+    name: 1
+  }
+);
+
+
+# 22
+
+db.getCollection('restaurants').find(
+  {
+    grades: {
+      $elemMatch: {
+        grade: 'A',
+        score: 11,
+        date: ISODate('2014-08-11T00:00:00.000Z')
+      }
+    }
+  },
+  { restaurant_id: 1, name: 1, grades: 1, _id: 0 }
+);
+
+
+
+# 23
+
+db.getCollection('restaurants').find(
+  {
+    'grades.1.grade': 'A',
+    'grades.1.score': 9,
+    'grades.1.date': ISODate(
+      '2014-08-11T00:00:00.000Z'
+    )
+  },
+  { restaurant_id: 1, name: 1, grades: 1, _id: 0 }
+);
+
+
+# 24
+
+db.getCollection('restaurants').find(
+  { 'address.coord.1': { $gte: 42, $lt: 52 } },
+  {
+    restaurant_id: 1,
+    name: 1,
+    address: 1,
+    _id: 0
+  }
+);
+
+
+# 25
+
+db.getCollection('restaurants')
+  .find({})
+  .sort({ name: -1 });
+  
+# 26
+
+db.getCollection('restaurants')
+  .find({})
+  .sort({ name: 1 });
+  
+# 27
+
+db.getCollection('restaurants')
+  .find({})
+  .sort({ cuisine: 1, borough: -1 });
+  
+# 28
+
+db.getCollection('restaurants').find(
+  { 'address.street': { $exists: false } },
+  { address: 1 }
+);
+
+# 29
+
+db.getCollection('restaurants').find({
+  'address.coord': { $type: 'double' }
+});
+
+# 30
+
+db.getCollection('restaurants').find(
+  { 'grades.score': { $mod: [7, 0] } },
+  { restaurant_id: 1, name: 1, 'grades.grade': 1 }
+);
+
+# 31
+
+db.getCollection('restaurants').find(
+  { name: { $regex: 'mon' } },
+  {
+    name: 1,
+    borough: 1,
+    'address.coord': 1,
+    cuisine: 1
+  }
+);
+
+# 32
+
+db.getCollection('restaurants').find(
+  { name: { $regex: '^Mad' } },
+  {
+    name: 1,
+    borough: 1,
+    'address.coord': 1,
+    cuisine: 1
+  }
+);
